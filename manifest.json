@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "ZenPomo",
+  "version": "1.0",
+
+  "description": "A minimal pomodoro timer for Firefox.",
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.mozilla.org/*"],
+      "js": ["zenpomo.js"]
+    }
+  ]
+}
