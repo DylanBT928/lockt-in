@@ -13,3 +13,11 @@ No notifications. No clutter. Just mindful productivity.
 
 - Dylan Tran
 - Austin Phan
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Feel free to ⭐ the repo if you find this useful! Contributions and suggestions are welcome.
