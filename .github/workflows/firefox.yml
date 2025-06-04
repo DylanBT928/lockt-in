@@ -1,0 +1,28 @@
+name: Firefox
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate-extension:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install web-ext
+        run: npm install --global web-ext
+
+      - name: Lint extension
+        run: web-ext lint
+
+      - name: Build extension (dry-run)
+        run: web-ext build --overwrite-dest
