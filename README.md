@@ -1,11 +1,11 @@
 <img src="./assets/logo.svg" width="100px" align="left">
 
-### `Zen Pomo` 🌴
+### `Lockt In` 🌴
 
-![Size](https://img.shields.io/github/repo-size/DylanBT928/zen-pomo)
-![License](https://img.shields.io/github/license/DylanBT928/zen-pomo)
+![Size](https://img.shields.io/github/repo-size/DylanBT928/lockt-in)
+![License](https://img.shields.io/github/license/DylanBT928/lockt-in)
 
-**Zen Pomo** is a minimalist, distraction-free Pomodoro timer extension designed to help you stay focused, productive, and calm—one session at a time.
+**Lockt In** is a minimalist, distraction-free Pomodoro timer extension designed to help you stay focused, productive, and calm—one session at a time.
 
 No notifications. No clutter. Just mindful productivity.
 

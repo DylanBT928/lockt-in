@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "ZenPomo",
+  "name": "Lockt In",
   "version": "1.0",
   "description": "A minimal pomodoro timer for Firefox.",
   "icons": {
@@ -9,7 +9,7 @@
   "permissions": ["activeTab"],
   "browser_action": {
     "default_icon": "assets/logo.svg",
-    "default_title": "ZenPomo",
-    "default_popup": "zen-pomo/index.html"
+    "default_title": "Lockt In",
+    "default_popup": "lockt-in/index.html"
   }
 }
