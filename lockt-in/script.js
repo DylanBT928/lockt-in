@@ -10,32 +10,33 @@ var timer = document.getElementById("timer");
 var minutes = 25;
 var seconds = 0;
 
-var x;
+var stopwatch = false;
 
 function start_timer(){
 
-  //Decrement time
-  if(seconds == 0){
-    seconds = 60;
-    minutes = minutes -1;
-  }
-  seconds = seconds - 1;
+  if(stopwatch){
+    //Decrement time
+    if(seconds == 0){
+      seconds = 60;
+      minutes = minutes -1;
+    }
+    seconds = seconds - 1;
 
-  // Display the time
-  timer.innerHTML = minutes + ":" + seconds;
+    // Display the time
+    timer.innerHTML = minutes + ":" + seconds;
 
-  // If the count down is finished, end
-  if (minutes == 0 && seconds == 0) {
-    clearInterval(x);
-    timer.innerHTML = "00:00";
-  }
+    // If the count down is finished, end
+    if (minutes == 0 && seconds == 0) {
+      clearInterval(x);
+      timer.innerHTML = "00:00";
+  }}
 }
-
-start.addEventListener("click", function(){
   // Update the count down every 1 second
-  x = setInterval(start_timer(), 1000);
-});
+x = setInterval(start_timer(), 1000);
 
+start.addEventListener("click", function(){stopwatch = true;});
+
+pause.addEventListener("click", function(){stopwatch = false;})
 
 
 
