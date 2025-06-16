@@ -22,12 +22,12 @@ function start_timer(){
 
 
   // Display the time
-  time = minutes + ":" + seconds;
+  time.innerHTML = minutes + ":" + seconds;
 
   // If the count down is finished, end
   if (minutes == 0 && seconds == 0) {
     clearInterval(x);
-    time = "00:00";
+    time.innerHTML = "00:00";
   }
 }
 
