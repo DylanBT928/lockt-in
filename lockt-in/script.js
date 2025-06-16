@@ -14,14 +14,22 @@ var is_running = false;
 function initialize_display() {
   var min = minutes;
   var sec = seconds;
+
   if (min < 10) {
     min = "0" + min;
   }
   if (sec < 10) {
     sec = "0" + sec;
   }
+
   timer.innerHTML = min + ":" + sec;
   session_type.innerHTML = session;
+
+  if (session === "focus") {
+    take_break.innerHTML = "[ break ]";
+  } else {
+    take_break.innerHTML = "[ focus ]";
+  }
 }
 
 initialize_display();
@@ -92,4 +100,23 @@ start.addEventListener("click", function () {
   } else {
     start_timer();
   }
+});
+
+take_break.addEventListener("click", function () {
+  if (is_running) {
+    end_timer();
+  }
+
+  // Toggle between focus and break sessions
+  if (session === "focus") {
+    session = "break";
+    minutes = 5;
+    seconds = 0;
+  } else {
+    session = "focus";
+    minutes = 25;
+    seconds = 0;
+  }
+
+  initialize_display();
 });
