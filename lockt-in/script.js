@@ -10,6 +10,8 @@ var timer = document.getElementById("timer");
 var minutes = 25;
 var seconds = 0;
 
+var x;
+
 function start_timer(){
 
   //Decrement time
@@ -31,7 +33,7 @@ function start_timer(){
 
 start.addEventListener("click", function(){
   // Update the count down every 1 second
-  var x = setInterval(start_timer(), 1000);
+  x = setInterval(start_timer(), 1000);
 });
 
 
