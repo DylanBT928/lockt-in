@@ -5,7 +5,7 @@ function listenForClicks() {
 var start = document.getElementById("start");
 var pause = document.getElementById("pause");
 var t_a_break = document.getElementById("break");
-var time = document.getElementById("time");
+var timer = document.getElementById("timer");
 
 var minutes = 25;
 var seconds = 0;
@@ -18,23 +18,21 @@ function start_timer(){
     minutes = minutes -1;
   }
   seconds = seconds - 1;
-  
-
 
   // Display the time
-  time.innerHTML = minutes + ":" + seconds;
+  timer.innerHTML = minutes + ":" + seconds;
 
   // If the count down is finished, end
   if (minutes == 0 && seconds == 0) {
     clearInterval(x);
-    time.innerHTML = "00:00";
+    timer.innerHTML = "00:00";
   }
 }
 
 start.addEventListener("click", function(){
   // Update the count down every 1 second
   var x = setInterval(start_timer(), 1000);
-})
+});
 
 
 
