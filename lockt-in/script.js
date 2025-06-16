@@ -11,29 +11,48 @@ var minutes = 25;
 var seconds = 0;
 
 var stopwatch = false;
+var x = null;
 
-// Update the count down every 1 second
-const x = setInterval(function(){
-  if(stopwatch){//Decrement time
-    if(seconds == 0){
-      seconds = 60;
-      minutes = minutes -1;
-    }
-    seconds = seconds - 1;
+function start_timer(){
+  if(x == null){
+    x = setInterval(tick, 1000)
+  }
+}
 
-    // Display the time
-    timer.innerHTML = minutes + ":" + seconds;
+function end_timer(){
+  if(x != null){
+    x = clearInterval(x);
+    x = null;
+  }
+}
 
-    // If the count down is finished, end
-    if (minutes == 0 && seconds == 0) {
-      clearInterval(x);
-      timer.innerHTML = "00:00";
-    }}
-}, 1000);
+function tick(){
+  //Decrement time
+  if(seconds == 0){
+    seconds = 60;
+    minutes = minutes -1;
+  }
+  seconds = seconds - 1;
 
-start.addEventListener("click", function(){stopwatch = true;});
+  // Calculate Display
+  var minute = minutes;
+  var second = seconds;
+  if(minute < 10){minute = "0" + minute;}
+  if(second < 10){second = "0" + second;}
 
-pause.addEventListener("click", function(){stopwatch = false;});
+  // Display display
+  timer.innerHTML = minutes + ":" + seconds;
+
+  // If the count down is finished, end
+  if (minutes == 0 && seconds == 0) {
+    clearInterval(x);
+    timer.innerHTML = "00:00";
+  }
+}
+
+start.addEventListener("click", function(){start_timer();});
+
+pause.addEventListener("click", function(){end_timer();});
 
 
 
