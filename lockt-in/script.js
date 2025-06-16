@@ -32,7 +32,7 @@ function start_timer(){
   }}
 }
   // Update the count down every 1 second
-x = setInterval(start_timer(), 1000);
+var x = setInterval(start_timer(), 1000);
 
 start.addEventListener("click", function(){stopwatch = true;});
 
