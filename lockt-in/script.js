@@ -3,17 +3,41 @@ var start = document.getElementById("start");
 var take_break = document.getElementById("break");
 var timer = document.getElementById("timer");
 
-var minutes = 25;
-var seconds = 0;
+let timerState = {
+  minutes: 25,
+  seconds: 0,
+  session: "focus",
+  session_count: 0,
+  is_running: false,
+  end_time: null,
+};
 
-var session = "focus";
-var session_count = 0;
-var x = null;
-var is_running = false;
+let intervalId = null;
+
+browser.storage.local.get(["timerState"]).then((result) => {
+  if (result.timerState) {
+    timerState = result.timerState;
+
+    if (timerState.is_running && timerState.end_time) {
+      const now = Date.now();
+      const remaining = Math.max(0, timerState.end_time - now);
+
+      if (remaining > 0) {
+        timerState.minutes = Math.floor(remaining / 60000);
+        timerState.seconds = Math.floor((remaining % 60000) / 1000);
+        startTimer();
+      } else {
+        timerState.is_running = false;
+        handleTimerEnd();
+      }
+    }
+  }
+  initialize_display();
+});
 
 function initialize_display() {
-  var min = minutes;
-  var sec = seconds;
+  var min = timerState.minutes;
+  var sec = timerState.seconds;
 
   if (min < 10) {
     min = "0" + min;
@@ -23,47 +47,69 @@ function initialize_display() {
   }
 
   timer.innerHTML = min + ":" + sec;
-  session_type.innerHTML = session;
+  session_type.innerHTML = timerState.session;
 
-  if (session === "focus") {
+  if (timerState.session === "focus") {
     take_break.innerHTML = "[ break ]";
   } else {
     take_break.innerHTML = "[ focus ]";
   }
-}
 
-initialize_display();
-
-function start_timer() {
-  if (x == null) {
-    x = setInterval(tick, 1000);
-    is_running = true;
+  if (timerState.is_running) {
     start.innerHTML = "[ pause ]";
     start.className = "pause-btn";
-  }
-}
-
-function end_timer() {
-  if (x != null) {
-    x = clearInterval(x);
-    x = null;
-    is_running = false;
+  } else {
     start.innerHTML = "[ start ]";
     start.className = "start-btn";
   }
 }
 
-function tick() {
-  //Decrement time
-  if (seconds == 0) {
-    seconds = 60;
-    minutes = minutes - 1;
+function startTimer() {
+  if (intervalId) return;
+
+  timerState.is_running = true;
+  timerState.end_time =
+    Date.now() + (timerState.minutes * 60 + timerState.seconds) * 1000;
+
+  intervalId = setInterval(() => {
+    tick();
+  }, 1000);
+
+  start.innerHTML = "[ pause ]";
+  start.className = "pause-btn";
+
+  saveState();
+}
+
+function stopTimer() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
   }
-  seconds = seconds - 1;
+  timerState.is_running = false;
+  timerState.end_time = null;
+
+  start.innerHTML = "[ start ]";
+  start.className = "start-btn";
+
+  saveState();
+}
+
+function tick() {
+  if (timerState.seconds === 0) {
+    if (timerState.minutes === 0) {
+      handleTimerEnd();
+      return;
+    }
+    timerState.seconds = 59;
+    timerState.minutes--;
+  } else {
+    timerState.seconds--;
+  }
 
   // Calculate Display
-  var minute = minutes;
-  var second = seconds;
+  var minute = timerState.minutes;
+  var second = timerState.seconds;
   if (minute < 10) {
     minute = "0" + minute;
   }
@@ -74,49 +120,56 @@ function tick() {
   // Display display
   timer.innerHTML = minute + ":" + second;
 
-  // Ends countdown when finished and sets up the next session
-  if (minutes == 0 && seconds == 0) {
-    end_timer();
-    timer.innerHTML = "00:00";
-    if (session_count == 4) {
-      minutes = 20;
-    } else if (session == "focus") {
-      minutes = 5;
-      session = "break";
-      session_type.innerHTML = session;
-      session_count += 1;
-    } else {
-      minutes = 25;
-      session = "focus";
-      session_type.innerHTML = session;
-    }
-    initialize_display();
+  saveState();
+}
+
+function handleTimerEnd() {
+  stopTimer();
+
+  if (timerState.session_count === 4) {
+    timerState.minutes = 20;
+  } else if (timerState.session === "focus") {
+    timerState.minutes = 5;
+    timerState.session = "break";
+    timerState.session_count++;
+  } else {
+    timerState.minutes = 25;
+    timerState.session = "focus";
   }
+
+  timerState.seconds = 0;
+  initialize_display();
+  saveState();
+}
+
+function saveState() {
+  browser.storage.local.set({ timerState });
 }
 
 start.addEventListener("click", function () {
-  if (is_running) {
-    end_timer();
+  if (timerState.is_running) {
+    stopTimer();
   } else {
-    start_timer();
+    startTimer();
   }
 });
 
 take_break.addEventListener("click", function () {
-  if (is_running) {
-    end_timer();
+  if (timerState.is_running) {
+    stopTimer();
   }
 
   // Toggle between focus and break sessions
-  if (session === "focus") {
-    session = "break";
-    minutes = 5;
-    seconds = 0;
+  if (timerState.session === "focus") {
+    timerState.session = "break";
+    timerState.minutes = 5;
+    timerState.seconds = 0;
   } else {
-    session = "focus";
-    minutes = 25;
-    seconds = 0;
+    timerState.session = "focus";
+    timerState.minutes = 25;
+    timerState.seconds = 0;
   }
 
   initialize_display();
+  saveState();
 });

@@ -6,7 +6,7 @@
   "icons": {
     "48": "assets/logo.svg"
   },
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "browser_action": {
     "default_icon": "assets/logo.svg",
     "default_title": "Lockt In",
