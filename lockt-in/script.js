@@ -1,6 +1,5 @@
 var session_type = document.getElementById("session_type");
 var start = document.getElementById("start");
-var pause = document.getElementById("pause");
 var take_break = document.getElementById("break");
 var timer = document.getElementById("timer");
 
@@ -10,6 +9,7 @@ var seconds = 0;
 var session = "focus";
 var session_count = 0;
 var x = null;
+var is_running = false;
 
 function initialize_display() {
   var min = minutes;
@@ -29,6 +29,9 @@ initialize_display();
 function start_timer() {
   if (x == null) {
     x = setInterval(tick, 1000);
+    is_running = true;
+    start.innerHTML = "[ pause ]";
+    start.className = "pause-btn";
   }
 }
 
@@ -36,6 +39,9 @@ function end_timer() {
   if (x != null) {
     x = clearInterval(x);
     x = null;
+    is_running = false;
+    start.innerHTML = "[ start ]";
+    start.className = "start-btn";
   }
 }
 
@@ -76,13 +82,14 @@ function tick() {
       session = "focus";
       session_type.innerHTML = session;
     }
+    initialize_display();
   }
 }
 
 start.addEventListener("click", function () {
-  start_timer();
-});
-
-pause.addEventListener("click", function () {
-  end_timer();
+  if (is_running) {
+    end_timer();
+  } else {
+    start_timer();
+  }
 });
