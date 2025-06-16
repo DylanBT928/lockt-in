@@ -2,6 +2,7 @@ function listenForClicks() {
   document.addEventListener("click", (e) => {});
 }
 
+var session_type = document.getElementById("session_type")
 var start = document.getElementById("start");
 var pause = document.getElementById("pause");
 var t_a_break = document.getElementById("break");
@@ -10,7 +11,8 @@ var timer = document.getElementById("timer");
 var minutes = 25;
 var seconds = 0;
 
-var stopwatch = false;
+var session = "focus";
+var session_count = 0;
 var x = null;
 
 function start_timer(){
@@ -41,18 +43,29 @@ function tick(){
   if(second < 10){second = "0" + second;}
 
   // Display display
-  timer.innerHTML = minutes + ":" + seconds;
+  timer.innerHTML = minute + ":" + second;
 
-  // If the count down is finished, end
+  // Ends countdown when finished and sets up the next session
   if (minutes == 0 && seconds == 0) {
-    clearInterval(x);
+    end_timer();
     timer.innerHTML = "00:00";
+    if(session_count == 4){
+      minutes = 20;
+    }
+    else if(session == "focus"){
+      minutes = 5;
+      session = "break";
+      session_type.innerHTML = session;
+      session_count += 1;
+    }
+    else{
+      minutes = 25;
+      session = "focus";
+      session_type.innerHTML = session;
+    }
   }
 }
 
 start.addEventListener("click", function(){start_timer();});
 
 pause.addEventListener("click", function(){end_timer();});
-
-
-
