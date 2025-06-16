@@ -5,32 +5,37 @@ function listenForClicks() {
 var start = document.getElementById("start");
 var pause = document.getElementById("pause");
 var t_a_break = document.getElementById("break");
-var timer = document.getElementById("time");
+var time = document.getElementById("time");
 
-var time = "25:00";
+var minutes = 25;
+var seconds = 0;
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+function start_timer(){
 
-  // Get today's date and time
-  var now = new Date().getTime();
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-  time = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    time = "EXPIRED";
+  //Decrement time
+  if(seconds == 0){
+    seconds = 60;
+    minutes = minutes -1;
   }
-}, 1000);
+  seconds = seconds - 1;
+  
+
+
+  // Display the time
+  time = minutes + ":" + seconds;
+
+  // If the count down is finished, end
+  if (minutes == 0 && seconds == 0) {
+    clearInterval(x);
+    time = "00:00";
+  }
+}
+
+start.addEventListener("click", function(){
+  // Update the count down every 1 second
+  var x = setInterval(start_timer(), 1000);
+})
+
+
+
+
