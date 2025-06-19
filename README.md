@@ -9,6 +9,8 @@
 
 No notifications. No clutter. Just mindful productivity.
 
+🔗 https://addons.mozilla.org/en-US/firefox/addon/lockt-in/
+
 ## 🧑‍💻 Authors
 
 - Dylan Tran
